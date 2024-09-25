@@ -1,4 +1,4 @@
-import {user, User} from "../models/user.model.js"
+import {User} from "../models/user.model.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -115,18 +115,20 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req,res) => {
     try {
-        const {fullname, email, phoneNumber, bio, skill} = req.body;
+        const {fullname, email, phoneNumber, bio, skills} = req.body;
         const file = req.file;
-        if(!fullname || !email || !phoneNumber || !bio || !skill){
-            return res.status(400).json({
-                message : "Something is missing",
-                success : false
-            })
-        }
+        // if(!fullname || !email || !phoneNumber || !bio || !skill){
+        //     return res.status(400).json({
+        //         message : "Something is missing",
+        //         success : false
+        //     })
+        // }
 
         //cloundinary
-
-        const skillArray = skill.split(",");
+        let skillsArray
+        if(skills){
+            skillsArray = skill.split(",");
+        }
         const userId = req.id; // middleware authencation
         let user  =  await User.findOne(userId);
         if(!user){
@@ -137,11 +139,11 @@ export const updateProfile = async (req,res) => {
         }
 
         // update data
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.profile.bio = bio;
-        user.profile.skill = skillArray;
+        if(fullname) user.fullname = fullname;
+        if(email) user.email = email;
+        if(phoneNumber) user.phoneNumber = phoneNumber;
+        if(bio)  user.profile.bio = bio;
+        if(skillsArray) user.profile.skills = skillsArray;
 
         // resume
 
