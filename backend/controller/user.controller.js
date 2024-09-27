@@ -75,7 +75,7 @@ export const login = async (req, res) => {
 
         // create the token
         const tokenData = {
-            UserId : user._id
+            userId : user._id
         }
         const token = await jwt.sign(tokenData, process.env.SECRET_KEY,{expiresIn: '1d'});
          
@@ -127,7 +127,7 @@ export const updateProfile = async (req,res) => {
         //cloundinary
         let skillsArray
         if(skills){
-            skillsArray = skill.split(",");
+            skillsArray = skills.split(",");
         }
         const userId = req.id; // middleware authencation
         let user  =  await User.findOne(userId);

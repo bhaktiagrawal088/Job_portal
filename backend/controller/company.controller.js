@@ -18,6 +18,8 @@ export const registerCompany = async (req,res) => {
             })
         }
 
+        console.log("User ID in registerCompany:", req.id) // Add this line before creating the company
+
         company = await Company.create({
             name : companyName,
             userId : req.id,
@@ -38,17 +40,31 @@ export const registerCompany = async (req,res) => {
 export const getCompany = async(req,res) => {
     try {
         const userId = req.id; //logged in user id
-        const companies = await Company.findOne({userId});
+        if (!userId) {
+            return res.status(400).json({
+                message: "User ID is required",
+                success: false
+            });
+        }
+        // Find companies associated with the user
+        const companies = await Company.find({userId});
         if(!companies){
             return res.status(400).json({
                 message : "You don't have any company",
                 success : false
             })
         }
+        return res.status(200).json({
+            companies,
+            success : true
+        })
         
     } catch (error) {
         console.log(error);
-        
+        return res.status(500).json({
+            message: "An error occurred while fetching companies",
+            success: false
+        });   
     }
 }
 
