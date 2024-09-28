@@ -11,8 +11,15 @@ export const PostJob = async(req,res) => {
                 success : false,
             });
         }
+        let job = await Job.findOne({name:title})
+        if(!job){
+            return res.status(400).json({
+                message : "You can't create same job",
+                success : false
+            })
+        }
 
-        const job  = await Job.create({
+        job  = await Job.create({
             title,
             description,
             requirements : requirements.split(","),
@@ -24,6 +31,7 @@ export const PostJob = async(req,res) => {
             company : companyId,
             created_by : userId
         })
+
 
         return res.status(201).json({
             message: "Job posted successfully",
@@ -68,7 +76,15 @@ export const getAllJobs = async(req,res) => {
 export const getJobById = async(req,res) => {
     try {
         const jobId = req.params.id;
-        const job = await Job.find(jobId);
+
+        // Check if the jobId is a valid MongoDB ObjectId
+        if (!jobId.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({
+                message: "Invalid Job ID format",
+                success: false,
+            });
+        }
+        const job = await Job.findById(jobId);
         if(!job){
             return res.status(404).json({
                 message : "Job not found",
