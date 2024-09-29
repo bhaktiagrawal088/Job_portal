@@ -343,6 +343,131 @@ The Job Application Management System enables users to apply for jobs, view jobs
 
 
 
+# Frontend Setup with React, Vite, Tailwind CSS, and Shadcn UI
+
+This guide explains how to set up a frontend project using **React**, **Vite**, **Tailwind CSS**, and **Shadcn UI**.
+
+## Step 1: Initialize a React Project with Vite
+
+1. Open your terminal and run the following command to create a new Vite project with React:
+
+    ```bash
+    npm create vite@latest my-app -- --template react
+    ```
+
+2. Change into the project directory:
+
+    ```bash
+    cd my-app
+    ```
+
+3. Install the necessary dependencies:
+
+    ```bash
+    npm install
+    ```
+
+## Step 2: Install Tailwind CSS
+
+Shadcn UI requires **Tailwind CSS** for styling. Follow the steps to install and configure Tailwind in the Vite project.
+
+1. Install Tailwind CSS and its dependencies:
+
+    ```bash
+    npm install -D tailwindcss postcss autoprefixer
+    ```
+
+2. Initialize Tailwind CSS configuration:
+
+    ```bash
+    npx tailwindcss init
+    ```
+
+    This will create a `tailwind.config.cjs` file.
+
+3. Configure **tailwind.config.cjs** by adding the following:
+
+    ```javascript
+    /** @type {import('tailwindcss').Config} */
+    module.exports = {
+      content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+      ],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+    }
+    ```
+
+4. Create a `src/index.css` file and add Tailwind’s base styles:
+
+    ```css
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```
+
+5. Import the `index.css` file into your `src/main.jsx` or `src/index.jsx` file:
+
+    ```javascript
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import App from './App';
+    import './index.css'; // <-- Import Tailwind styles
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    );
+    ```
+
+## Step 3: Add Shadcn UI Components
+
+1. Install Shadcn CLI globally or use via `npx`:
+
+    ```bash
+    npx shadcn@latest init
+    ```
+
+2. Follow the setup instructions. After initialization, you can start adding Shadcn UI components. For example, to add a button component:
+
+    ```bash
+    npx shadcn add button
+    ```
+
+    Replace `button` with other components you may need (e.g., `input`, `dialog`).
+
+## Step 4: Start the Development Server
+
+Now that everything is set up, start the development server:
+
+```bash
+npm run dev
+```
+#### Open http://localhost:5173 in your browser to view your project.
+
+
+# Navbar Component for Job Portal
+
+The `Navbar` component for the Job Portal project is a navigation bar that conditionally renders content based on the user's login status. Below is a breakdown of the implementation, key features, and how to use it.
+
+## Key Features
+
+1. **Conditional Rendering:**
+   - Displays Login and Signup buttons when the user is not logged in.
+   - Displays the user's avatar with additional options (e.g., View Profile, Logout) when logged in.
+
+2. **Lucide Icons:**
+   - Uses **lucide-react** for displaying icons like `User2` and `LogOut`.
+
+3. **Popover for User Actions:**
+   - When the user is logged in, their avatar triggers a popover with options like viewing the profile or logging out.
+
+4. **Navigation Links:**
+   - The `Navbar` contains static navigation links such as `Home`, `Jobs`, and `Browser`. These links are connected to React Router for proper navigation.
 
 
 
