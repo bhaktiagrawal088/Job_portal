@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import axios from 'axios'
+import { toast } from 'sonner'
+import { USER_API_END_POINT } from '@/utils/constant.js'
 
 function Login() {
     const [input, Setinput] = useState({
@@ -14,6 +16,7 @@ function Login() {
         role : "",
       
     })
+    const navigate = useNavigate();
 
     const changeEventListener = (e) => {
         Setinput({...input , [e.target.name] : e.target.value})
@@ -21,9 +24,23 @@ function Login() {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post()
-
-        } catch (error) {
+            const res = await axios.post(`${USER_API_END_POINT}/login`, input,{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials:true
+            });
+            console.log(res.data.success);
+            
+            if(res.data.success){
+                navigate("/")
+                toast.success(res.data.message);
+                toast.error(error.response.data.message)
+            }
+        }       
+       catch (error) {
+        console.error("Error response:", error.response); // Log the error response for more info
+        toast.error("An error occurred. Please try again.");
             
         }
         

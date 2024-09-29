@@ -4,9 +4,10 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
+import { USER_API_END_POINT } from '@/utils/constant.js'
+import { toast } from 'sonner'
 
 function Signup() {
     const [input, Setinput] = useState({
@@ -18,6 +19,8 @@ function Signup() {
         file : ""
     })
 
+    const navigate = useNavigate();
+
     const changeEventListener = (e) => {
         Setinput({...input , [e.target.name] : e.target.value})
     }
@@ -26,6 +29,8 @@ function Signup() {
         Setinput({...input , file : e.target.files[0]})
     } 
     const submitHandler = async (e) => {
+        e.preventDefault();
+
         const formData = new FormData();
         formData.append('fullname', input.fullname);
         formData.append('email', input.email);
@@ -36,14 +41,20 @@ function Signup() {
             formData.append('file', input.file);
         }
 
-        e.preventDefault();
         try {
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData,{
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
                 withCredentials:true
-            })
+            });
+            if(res.data.success){
+                console.error("Error response:", res.data.message); // Log the error response for more info
+                navigate("/login")
+                toast.success(res.data.message);
+                toast.error(error.response.data.message)
+
+            }
         } catch (error) {
             console.log(error);
             
@@ -68,7 +79,7 @@ function Signup() {
                 </div>
                 <div className='my-2'>
                     <Label>Email</Label>
-                    <i 
+                    <Input 
                     type="email" 
                     value={input.email}
                     name="email"
