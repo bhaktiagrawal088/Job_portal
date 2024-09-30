@@ -8,6 +8,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant.js'
 import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
+import { Loader2 } from 'lucide-react'
+import { setLoading } from '@/redux/authSlice'
 
 function Signup() {
     const [input, Setinput] = useState({
@@ -19,7 +22,10 @@ function Signup() {
         file : ""
     })
 
+    const {loading} = useSelector(store=>store.auth);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const changeEventListener = (e) => {
         Setinput({...input , [e.target.name] : e.target.value})
@@ -42,6 +48,7 @@ function Signup() {
         }
 
         try {
+            dispatch(setLoading(true))
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData,{
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -54,10 +61,14 @@ function Signup() {
                 toast.success(res.data.message);
                 toast.error(error.response.data.message)
 
+
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error response:", error.response); // Log the error response for more info
             
+        }
+        finally{
+            dispatch(setLoading(false))
         }
         
     }
@@ -124,7 +135,13 @@ function Signup() {
                         className= "cursor-pointer "/>
                     </div>
                 </div>
-                    <Button className="w-full my-4 text-white bg-black hover:bg-black">Signup</Button>
+                
+                    {
+                        loading ? <Button className="w-full my-4" ><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait</Button> :
+                        <Button className="w-full my-4 text-white bg-black hover:bg-black">Signup</Button>
+
+                    }
+                
                     <span className='text-sm'>Already have an account? 
                         <Link to='/login' className='text-blue-800 text-bold' >  Login</Link></span>
             </form>

@@ -470,4 +470,42 @@ The `Navbar` component for the Job Portal project is a navigation bar that condi
    - The `Navbar` contains static navigation links such as `Home`, `Jobs`, and `Browser`. These links are connected to React Router for proper navigation.
 
 
+## Login Page
+
+The login page consists of a form with fields for the user's email, password, and role (Student or Recruiter). Upon submission, the form sends a POST request to the login API, and on successful login, the user is redirected to the homepage.
+
+**Key Features:**
+- Input fields for email and password.
+- Radio buttons for selecting the user role (Student or Recruiter).
+- Login button triggers an API call.
+- Handles success and error responses using toast notifications.
+
+## Signup Page
+
+The signup page allows users to create an account by filling in their details, including full name, email, phone number, password, and role. Users can also upload a profile image. On form submission, a POST request is made to the registration API.
+
+**Key Features:**
+- Input fields for full name, email, phone number, password.
+- Radio buttons for selecting the user role (Student or Recruiter).
+- File input for profile image upload.
+- Signup button triggers an API call.
+- Handles success and error responses using toast notifications.
+
+## Redux Toolkit Setup for State Management
+
+This document outlines the steps required to set up Redux Toolkit for state management in a React application.
+
+### Overview
+Redux Toolkit simplifies the process of setting up Redux in a React application by providing tools to create slices of state, configure a store, and manage state efficiently with less boilerplate. In this setup, we demonstrate creating an authentication slice (`authSlice`) that tracks a loading state.
+
+## Steps
+
+### 1. Install Required Packages
+To use Redux Toolkit and React-Redux in your project, install them with the following command:
+
+```bash
+npm install @reduxjs/toolkit react-redux
+```
+
+
 

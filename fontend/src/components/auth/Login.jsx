@@ -8,6 +8,10 @@ import { Button } from '../ui/button'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { USER_API_END_POINT } from '@/utils/constant.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import store from '@/redux/store'
+import { Loader2 } from 'lucide-react'
 
 function Login() {
     const [input, Setinput] = useState({
@@ -16,7 +20,10 @@ function Login() {
         role : "",
       
     })
+    const {loading} = useSelector(store => store.auth);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const changeEventListener = (e) => {
         Setinput({...input , [e.target.name] : e.target.value})
@@ -24,6 +31,7 @@ function Login() {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+            dispatch(setLoading(true))
             const res = await axios.post(`${USER_API_END_POINT}/login`, input,{
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,10 +48,10 @@ function Login() {
         }       
        catch (error) {
         console.error("Error response:", error.response); // Log the error response for more info
-        toast.error("An error occurred. Please try again.");
-            
         }
-        
+        finally{
+            dispatch(setLoading(false))
+        }
     }
    
     return (
@@ -81,7 +89,10 @@ function Login() {
                             </div>
                     </RadioGroup>   
                     </div>
-                        <Button className="w-full mb-2 text-white bg-black hover:bg-black">Login</Button>
+                    {
+                        loading ? <Button className="w-full my-4" ><Loader2 className='mr-2 h-4 w-4 animate-spin'/>Please wait</Button> :                         <Button className="w-full mb-2 text-white bg-black hover:bg-black">Login</Button>
+
+                    }
                         <span className='text-sm'>Don't have have an account? 
                             <Link to='/signup' className='text-blue-800 text-bold' >  Signup</Link></span>
                 </form>
