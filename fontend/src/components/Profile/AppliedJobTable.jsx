@@ -22,7 +22,7 @@ function AppliedJobTable() {
                         <TableCell>06-10-2024</TableCell>
                         <TableCell>Frontend Developer</TableCell>
                         <TableCell>Google</TableCell>
-                        <TableCell><Badge className="bg-slate-600 text-white rounded-full">Selected</Badge></TableCell>
+                        <TableCell><Badge className="bg-slate-600 text-white rounded-full hover:bg-slate-600">Selected</Badge></TableCell>
                     </TableRow>
                 ))
             }

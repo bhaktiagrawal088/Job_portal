@@ -43,7 +43,7 @@ function Profile() {
             <h1 className='font-medium text-lg'>Skills</h1>
             <div className='flex items-center gap-2'>
             {
-                skillsArray.length > 0 ? skillsArray.map((item, index) => <Badge className="bg-slate-600 text-white rounded-full" key={index}>{item}</Badge>) : <span>NA</span>
+                skillsArray.length > 0 ? skillsArray.map((item, index) => <Badge className="bg-slate-600 text-white rounded-full hover:bg-slate-600 cursor-pointer" key={index}>{item}</Badge>) : <span>NA</span>
             }
             </div>      
         </div>

@@ -4,8 +4,12 @@ import { BookMarked } from 'lucide-react'
 import { Avatar } from '@radix-ui/react-avatar'
 import { AvatarImage } from '../ui/avatar'
 import { Badge } from '../ui/badge'
+import { useNavigate } from 'react-router-dom'
 
 function Singlejob() {
+
+    const navigate = useNavigate();
+    const jobId = "wertyuikjhcvb"
   return (
     <div className='p-5 rounded-md shadow-md bg-white border border-gray-100'>
         <div className='flex items-center justify-between'>
@@ -36,7 +40,7 @@ function Singlejob() {
 
         </div>
         <div className='flex items-center gap-4 mt-4'>
-            <Button variant="outline">Details</Button>
+            <Button onClick={() => navigate(`/description/${jobId}`)} variant="outline">Details</Button>
             <Button className="bg-purple-800 hover:bg-purple-900 text-white">Save for later</Button>
         </div>
     </div>
