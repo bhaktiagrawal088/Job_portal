@@ -4,9 +4,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { LogOut, User2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
-function Navbar() {
-    const user = false;
+function Navbar() { 
+  const {user} = useSelector(store => store.auth)
   return (
     <div>
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -19,7 +20,7 @@ function Navbar() {
           <ul className="flex font-medium items-center gap-5">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/jobs">Jobs</Link></li>
-            <li><Link to="/brower">Browser</Link></li>
+            <li><Link to="/browse">Browse</Link></li>
             {/* <li><Link>Home</Link></li>
             <li><Link>Jobs</Link></li>
             <li><Link>Browser</Link></li> */}
