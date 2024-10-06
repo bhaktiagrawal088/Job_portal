@@ -507,5 +507,130 @@ To use Redux Toolkit and React-Redux in your project, install them with the foll
 npm install @reduxjs/toolkit react-redux
 ```
 
+# Job Portal Home Page
 
+This project is a **Job Portal Home Page** built using React. It consists of multiple components like a navigation bar, hero section, category carousel, and a display of the latest job postings. The main aim is to provide a clean and user-friendly interface to help users search and apply for jobs easily.
 
+## Project Features
+
+- **Navbar:** A responsive navigation bar with links to various sections of the site, a mobile menu, and a contact button.
+- **Hero Section:** This is the main header section that introduces the site and features a search bar to help users search for their desired jobs.
+- **Category Carousel:** A carousel that displays different job categories such as Frontend Developer, Backend Developer, etc.
+- **Latest Jobs Section:** Displays the most recent job openings with job details like company name, job title, description, and position details.
+- **Responsive Design:** The website is responsive and works well on both mobile and desktop devices.
+
+## Components
+
+### 1. `Home.jsx`
+The main container for the homepage, responsible for rendering all the other components like Navbar, HeroSection, CategoryCarousel, LatestJobs, and Footer.
+
+### 2. `CategoryCarousel.jsx`
+Displays a horizontal scrolling carousel with various job categories. Users can click on a category to filter the job listings.
+
+### 3. `HeroSection.jsx`
+Contains the main heading, tagline, and a search input field where users can search for jobs.
+
+### 4. `LatestJobs.jsx` & `LatestJobCards.jsx`
+This section displays a grid of the latest jobs available, with each job card showing job details like company, position, and salary.
+
+# Jobs Page
+
+This project is a **Jobs Page** built using React, consisting of components such as a navigation bar, job filters, and a list of available jobs. The Jobs Page is designed to help users browse and filter job opportunities based on their preferences.
+
+## Project Features
+
+- **Navbar:** A responsive navigation bar to navigate through different sections of the platform.
+- **Filter Jobs:** A filter section where users can filter jobs based on location, industry, job type, and salary.
+- **Job Listings:** A list of jobs displayed as cards, each containing information about the company, job title, description, job type, salary, and more.
+- **Save for Later:** Users can save jobs for later by clicking the "Save for later" button on each job card.
+
+## Components
+
+### 1. `Jobs.jsx`
+The main container for the jobs page, responsible for rendering the `FilterCard` and the job listings. It includes mock job data and displays a list of available jobs using the `SingleJob` component.
+
+### 2. `FilterCard.jsx`
+Displays filters such as location, industry, job type, and salary. Users can select options to filter jobs based on these criteria.
+
+### 3. `SingleJob.jsx`
+Renders each individual job card with details such as the company name, job title, description, available positions, job type, and salary. It also includes buttons for viewing job details and saving the job for later.
+
+# Browse Page
+
+The **Browse Page** component is a feature of the job portal application that allows users to browse through a list of available job opportunities. It consists of a simple yet effective layout displaying job cards, each containing relevant information about different job postings.
+
+## Project Features
+
+- **Search Results Count:** Displays the total number of job results found, giving users a quick overview.
+- **Job Listings:** Shows a grid layout of job cards, each rendered using the `SingleJob` component.
+- **Responsive Design:** The design is responsive and works well across different screen sizes.
+
+## Components
+
+### 1. `Browse.jsx`
+The main container for the browse page, responsible for rendering a list of job opportunities. It includes mock job data and utilizes the `SingleJob` component to display the job details.
+
+- **Navbar:** Includes a reusable `Navbar` component for easy navigation.
+- **Job Listings:** Uses a grid layout to render multiple job listings based on the mock data.
+- **Search Result Count:** Displays the number of jobs in the search result at the top of the page.
+
+### 2. `SingleJob.jsx`
+Each job card in the grid is rendered using the `SingleJob` component, displaying relevant information such as:
+
+- Company Name
+- Location
+- Job Title
+- Job Description
+- Available Positions
+- Salary
+- Job Type
+
+- **Purpose**: Each individual job listing is represented using the `Singlejob` component.
+- **Key Features**:
+  - Displays job details like the company name, job title, location, and description.
+  - Shows job-specific information like available positions, salary, and job type (e.g., full-time, part-time).
+  - Includes action buttons, such as "Save for later" and "Details," allowing users to interact with the listings.
+  - Uses badges to highlight job-specific tags like job type and salary range.
+  - Includes a logo or avatar of the company for a professional look.
+
+  
+# User Profile Page
+
+The **User Profile Page** is a crucial section of the job portal where users can view and manage their profile, including their personal information, skills, and applied jobs.
+
+## Overview
+
+- **User Details**: Displays essential information such as the user's name, email, and contact number.
+- **Skills**: Shows the user's listed technical skills using badges.
+- **Resume**: Includes a link to the user's uploaded resume.
+- **Applied Jobs**: A table that shows a list of jobs the user has applied to, including the application date, role, company name, and current application status.
+
+## Components
+
+### 1. Profile Component (`Profile.jsx`)
+- **Purpose**: This component displays the user profile details, including avatar, name, email, contact information, and skills. It also links to the resume and provides an overview of applied jobs.
+- **Key Features**:
+  - Avatar image for profile identification.
+  - Editable contact information.
+  - Badge-based display of user skills.
+  - A resume section that links to an external file (Google Drive, etc.).
+  - Integration with the `AppliedJobTable` component to list the jobs the user has applied for.
+
+### 2. Applied Jobs Table Component (`AppliedJobTable.jsx`)
+- **Purpose**: This component renders a table of jobs the user has applied for, including important details such as application date, job role, company, and application status.
+- **Key Features**:
+  - Table format with headers for date, job role, company, and status.
+  - Uses badges to show the status of the job application (e.g., "Selected").
+  - Displays a dynamic list of jobs that the user has applied to, ensuring the data is up-to-date.
+
+### Key UI Elements
+- **Navbar**: Provides navigation across the application.
+- **Avatar and Contact Information**: Displays a professional image and personal details of the user.
+- **Skills Section**: A badge-based system that allows users to showcase their skills in an organized manner.
+- **Resume Link**: A clickable link for the user's resume, enhancing their job-seeking experience.
+- **Applied Jobs Table**: A dynamic table showing the jobs the user has applied to, with the current status of their applications.
+
+## Layout
+- **Two main sections**:
+  - **Profile Info**: Shows personal details and skills, including the avatar, name, contact information, skills, and resume link.
+  - **Applied Jobs**: Displays job applications in a table format, where users can track the status of their applications.
