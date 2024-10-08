@@ -1,6 +1,8 @@
 import {User} from "../models/user.model.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utilis/datauri.js";
+import cloudinary from "../utilis/cloudinary.js";
 
 export const register = async (req, res ) => {
     try {
@@ -27,6 +29,10 @@ export const register = async (req, res ) => {
             phoneNumber,
             password : hashedPassword,
             role,
+            profile: {
+                resume: req.file.path, // Path to the uploaded file
+                resumeOriginalName: req.file.name // Save original name
+              }
         })
         return res.status(201).json({
             message : "Account created successfully",
@@ -85,7 +91,10 @@ export const login = async (req, res) => {
             email : user.email,
             phoneNumber : user.phoneNumber,
             role : user.role,
-            profile : user.profile
+            profile: {
+                ...user.profile,
+                resumeOriginalName: user.profile.resumeOriginalName
+              }
 
         }
         return res.status(200).cookie("token", token, {maxAge : 1*24*60*60*1000, httpsOnly: true, sameSite : "strict"}).json({
@@ -116,6 +125,8 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req,res) => {
     try {
         const {fullname, email, phoneNumber, bio, skills} = req.body;
+        console.log(fullname, email, phoneNumber, bio, skills);
+        
         const file = req.file;
         // if(!fullname || !email || !phoneNumber || !bio || !skill){
         //     return res.status(400).json({
@@ -125,12 +136,15 @@ export const updateProfile = async (req,res) => {
         // }
 
         //cloundinary
+        const fileUri = getDataUri(file)
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+
         let skillsArray
         if(skills){
             skillsArray = skills.split(",");
         }
         const userId = req.id; // middleware authencation
-        let user  =  await User.findOne(userId);
+        let user  =  await User.findOne({_id : userId});
         if(!user){
             return res.status(400).json({
                 message : "User not found",
@@ -146,6 +160,13 @@ export const updateProfile = async (req,res) => {
         if(skillsArray) user.profile.skills = skillsArray;
 
         // resume
+
+        if(cloudResponse){
+            user.profile.resume= cloudResponse.secure_url // save the cloudinary 
+            user.profile.resumeOriginalName = file.originalname;  // save the original file name
+            
+
+        }
 
         await user.save();
 

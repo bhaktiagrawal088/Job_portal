@@ -41,7 +41,7 @@ function Login() {
             console.log(res.data.success);
             
             if(res.data.success){
-                dispatch(setUser(res.data.message))
+                dispatch(setUser(res.data.user))
                 navigate("/")
                 toast.success(res.data.message);
                 toast.error(error.response.data.message)
