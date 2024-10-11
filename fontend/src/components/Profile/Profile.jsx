@@ -11,13 +11,17 @@ import { useSelector } from 'react-redux'
 import store from '@/redux/store'
 
 // const skillsArray = ["HTML", "CSS", "JavaScripts", "React", "Node js", "Express js"]
-const isResume = true;
 
 
 function Profile() {
 
+
     const [open , setOpen] = useState(false);
     const {user} = useSelector(store => store.auth); 
+    const isResume = Boolean(user?.profile?.resume);
+
+    console.log("Resume URL:", user?.profile?.resume);
+
 
   return (
     <div>
@@ -57,15 +61,19 @@ function Profile() {
             }
             </div>      
         </div>
-
+            
         <div className='grid w-full max-w-sm items-center gap-1.5'>
             <Label className="text-md text-bold">Resume</Label>
+            
             {
-                isResume ? <a target='blank' href={user?.profile?.resume}
+                isResume ? <a target='_blank'     rel="noopener noreferrer"  href={user?.profile?.resume}
             
                 className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName || 'Resume not avaiable'}</a> : <span>NA</span>
+
             }
+
         </div>
+        
             
 
         

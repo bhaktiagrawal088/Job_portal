@@ -30,9 +30,9 @@ export const register = async (req, res ) => {
             password : hashedPassword,
             role,
             profile: {
-                resume: req.file.path, // Path to the uploaded file
-                resumeOriginalName: req.file.name // Save original name
-              }
+                resume: cloudResponse.secure_url, // Store Cloudinary URL
+                resumeOriginalName: req.file.originalname // Store the original file name
+            }
         })
         return res.status(201).json({
             message : "Account created successfully",
@@ -138,6 +138,8 @@ export const updateProfile = async (req,res) => {
         //cloundinary
         const fileUri = getDataUri(file)
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+        console.log(cloudResponse);
+        
 
         let skillsArray
         if(skills){

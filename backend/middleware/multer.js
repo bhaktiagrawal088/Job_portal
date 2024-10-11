@@ -8,3 +8,4 @@ const upload = multer({ storage });
 
 // Step 3: Export the singleUpload middleware
 export const singleUpload = upload.single("file");
+
