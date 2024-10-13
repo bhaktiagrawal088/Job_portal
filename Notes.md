@@ -634,3 +634,110 @@ The **User Profile Page** is a crucial section of the job portal where users can
 - **Two main sections**:
   - **Profile Info**: Shows personal details and skills, including the avatar, name, contact information, skills, and resume link.
   - **Applied Jobs**: Displays job applications in a table format, where users can track the status of their applications.
+
+# Job Description Page
+
+## Overview
+
+The `JobDescription` component is responsible for rendering detailed information about a particular job and allowing users to apply for the job. The job details are fetched from a backend API, and the user is notified of the application status in real-time.
+
+## Key Features
+
+- **Job Details Display**: Displays essential information such as job title, role, location, salary, experience required, and total applicants.
+- **Apply for Job**: Allows the user to apply for the job by clicking a button, which dynamically updates to show whether the user has already applied.
+- **Dynamic State Management**: Utilizes Redux for managing global state, and React hooks like `useState` and `useEffect` to manage and synchronize the local state with the backend.
+- **Real-Time UI Updates**: Upon successfully applying for a job, the UI is updated in real-time to reflect the change in application status.
+
+## Libraries and Dependencies
+
+- **React**: For creating the UI components.
+- **Redux**: For managing global state related to jobs and user data.
+- **Axios**: For making HTTP requests to the backend API.
+- **Sonner**: For displaying notifications (toasts) on actions like successful job applications or errors.
+- **React Router**: For handling dynamic routing (extracting the job ID from the URL).
+- **Tailwind CSS**: For styling the component and ensuring a consistent look.
+
+## File Structure
+
+```plaintext
+src/
+  └── components/
+      └── JobDescription.js
+```
+# Update Profile Dialog
+
+## Overview
+
+The `UpdateProfileDialog` component is a user interface that allows users to update their profile details. It provides a dialog box where users can edit their full name, email, phone number, bio, skills, and upload their resume. The updated data is sent to the backend and reflected in the Redux store.
+
+## Key Features
+
+- **Editable Profile Fields**: Users can update their full name, email, phone number, bio, skills, and upload a resume.
+- **File Upload**: The resume file can be uploaded in PDF format and is handled by `FormData` to send it to the backend.
+- **Form State Management**: The component uses React's `useState` to manage the form's input fields and file upload. `useEffect` ensures that the initial values are pre-populated with the user's current data.
+- **Loading State**: While the form submission is in progress, a spinner is shown on the submit button to indicate that the process is ongoing.
+- **Real-Time State Update**: The Redux store is updated in real-time with the new profile data after a successful form submission.
+
+## Structure and Functionality
+
+- **Form Layout**:
+  - The form contains the following fields:
+    - Full Name
+    - Email
+    - Phone Number
+    - Bio
+    - Skills (comma-separated)
+    - Resume (file upload)
+  - The `Input` component is used for all text-based fields.
+  
+- **Submit Process**:
+  - On form submission, a `POST` request is sent to update the profile using `axios`.
+  - Form data, including the resume file, is submitted using `multipart/form-data`.
+
+## Libraries and Dependencies
+
+- **React**: For managing component state and rendering the UI.
+- **Redux**: For global state management, updating the user profile information.
+- **Axios**: For making HTTP requests to update the profile
+
+# useGetAllJobs Hook
+
+## Overview
+
+The `useGetAllJobs` custom hook fetches a list of all jobs from the backend API and stores the result in the Redux state. This hook is intended to be used by components that need access to job data without directly implementing the logic for fetching and dispatching data.
+
+## Key Features
+
+- **API Request**: Makes an HTTP GET request to fetch all available jobs.
+- **Redux Integration**: Dispatches the job data to the global Redux store, making it accessible across the app.
+- **Error Handling**: Logs errors if the API request fails.
+- **One-time Fetch**: Ensures that the data is fetched only once using the `useEffect` hook when the component mounts.
+- **Reusability**: Abstracts fetching job data into a custom hook for use across multiple components.
+
+## Usage Example
+
+```javascript
+import useGetAllJobs from '@/hooks/useGetAllJobs';
+
+function JobComponent() {
+  useGetAllJobs();
+
+  return (
+    <div>
+      {/* Render jobs */}
+    </div>
+  );
+}
+```
+
+# Persisting Redux Store with `redux-persist`
+
+This guide explains how to persist the Redux store in your application using `redux-persist`. By persisting the store, you ensure that the Redux state (e.g., user data, job applications) is stored across page reloads, improving the user experience.
+
+## Installation
+
+First, install the `redux-persist` library:
+
+```bash
+npm install redux-persist
+

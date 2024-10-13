@@ -7,6 +7,7 @@ import { JOB_API_END_POINT , APPLICATION_API_END_POINT } from '@/utils/constant'
 import { setSingleJob } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { data } from 'autoprefixer';
 
 function JobDescription() {
 
@@ -27,8 +28,14 @@ function JobDescription() {
 
     const applyJobHandler = async () => {
       try {
-        const res  = await axios.get(`${APPLICATION_API_END_POINT}/appy/${jobId}`)
-        toast.success(res.data.message)
+        const res  = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {withCredentials: true})
+
+        if(res.data.success){
+          setIsApplied(true); // update the local state
+          const updateSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
+          dispatch(setSingleJob(updateSingleJob)) // helps to real time UI update
+          toast.success(res.data.message)
+        }
         
       } catch (error) {
         console.log(error);
@@ -44,6 +51,7 @@ function JobDescription() {
               console.log(res)
               if(res.data.success){
                   dispatch(setSingleJob(res.data.job))
+                  setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id)) // Ensure the state is in  sync with fetched data
               }
           } catch (error) {
               console.log(error);
@@ -63,7 +71,7 @@ function JobDescription() {
                 <Badge className={'text-green-700 font-bold'} variant="ghost ">{singleJob?.salary}LPA</Badge>
             </div>
         </div>
-        <Button
+        <Button  onClick= {isApplied ? null : applyJobHandler}
         className={`text-white rounded-xl ${isApplied ? 'bg-gray-600 hover:bg-gray-700 cursor-not-allowed ' : 'bg-purple-800 hover:bg-purple-900'}`}>
         {
             isApplied ? 'Already Applied ' :  'Apply Now'

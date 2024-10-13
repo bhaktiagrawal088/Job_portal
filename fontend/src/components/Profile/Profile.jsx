@@ -8,7 +8,6 @@ import { Label } from '../ui/label'
 import AppliedJobTable from './AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
-import store from '@/redux/store'
 
 // const skillsArray = ["HTML", "CSS", "JavaScripts", "React", "Node js", "Express js"]
 
@@ -29,8 +28,9 @@ function Profile() {
       <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
       <div className='flex justify-between items-center'>
       <div className='flex items-center gap-4'>
-        <Avatar className="h-24 w-24"> 
-            <AvatarImage src="https://imgs.search.brave.com/uJGRrss5YN_rO5WuIXi0NBcuy4W_CVj-Qk7lp7_YFAA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAxLzM2LzAyLzI2/LzM2MF9GXzEzNjAy/MjY3MV84Skg1T0hJ/c3Nwd1Rlb00wb3ZZ/SVNjWUlnU2JnaFhz/Zy5qcGc" alt="Profile"/>
+        <Avatar className="h-24 w-24  "> 
+            <AvatarImage src={user?.profile?.Profile_Photo || 'https://www.gravatar.com/avatar/placeholder'} alt="Profile"
+                className="border-2 rounded-full border-gray-400" />
         </Avatar>
         <div>
             <h1 className='font-medium text-xl '>{user?.fullname}</h1>
