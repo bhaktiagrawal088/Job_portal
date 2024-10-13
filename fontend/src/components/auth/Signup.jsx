@@ -57,14 +57,15 @@ function Signup() {
             });
             if(res.data.success){
                 console.error("Error response:", res.data.message); // Log the error response for more info
-                navigate("/login")
                 toast.success(res.data.message);
-                toast.error(error.response.data.message)
-
-
+                navigate("/login")
+            }
+            else{
+                toast.success(res.data.message)
             }
         } catch (error) {
             console.error("Error response:", error.response); // Log the error response for more info
+            toast.error(error?.response?.data?.message || "Something went wrong. Please try again")
             
         }
         finally{

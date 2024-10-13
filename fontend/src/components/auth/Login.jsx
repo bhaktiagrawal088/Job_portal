@@ -44,11 +44,12 @@ function Login() {
                 dispatch(setUser(res.data.user))
                 navigate("/")
                 toast.success(res.data.message);
-                toast.error(error.response.data.message)
             }
         }       
        catch (error) {
         console.error("Error response:", error.response); // Log the error response for more info
+        toast.error(error.response.data.message)
+
         }
         finally{
             dispatch(setLoading(false))

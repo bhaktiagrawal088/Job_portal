@@ -14,6 +14,10 @@ export const register = async (req, res ) => {
             })
         }
 
+        const file = req.file;
+        const fileUri = getDataUri(file)
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+
         const user = await User.findOne({email});
         if(user){
             return res.status(400).json({
@@ -30,8 +34,10 @@ export const register = async (req, res ) => {
             password : hashedPassword,
             role,
             profile: {
-                resume: cloudResponse.secure_url, // Store Cloudinary URL
-                resumeOriginalName: req.file.originalname // Store the original file name
+                Profile_Photo: cloudResponse.secure_url, // Store Cloudinary URL
+                resumeOriginalName: file.originalname, // Store the original file name
+
+
             }
         })
         return res.status(201).json({
@@ -49,7 +55,7 @@ export const login = async (req, res) => {
     try {
         const {email, password, role} = req.body;
         if(!email || !password || !role){
-            return res.status(400).json({
+            return res.status(201).json({
                 message: "Something is missing",
                 success : false
             })
@@ -57,7 +63,7 @@ export const login = async (req, res) => {
         // check is email is correct or not
         let user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({
+            return res.status(201).json({
                 message : "Indirect email or password",
                 success : false
             })
@@ -65,7 +71,7 @@ export const login = async (req, res) => {
         // check is password is correct or not
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if(!isPasswordMatch){
-            return res.status(400).json({
+            return res.status(201).json({
                 message : "Incorrect password. Please enter again",
                 success : false,
             })
@@ -73,7 +79,7 @@ export const login = async (req, res) => {
 
         // check is role is correct or not
         if(role !== user.role){
-            return res.status(400).json({
+            return res.status(201).json({
                 message: "Account doesn't exit with current role",
                 success : false,
             })
@@ -128,6 +134,15 @@ export const updateProfile = async (req,res) => {
         console.log(fullname, email, phoneNumber, bio, skills);
         
         const file = req.file;
+        console.log("Uploaded file:", file); // Log req.file
+
+        if (!file) {
+            return res.status(400).json({
+                message: "No file uploaded",
+                success: false
+            });
+        }
+
         // if(!fullname || !email || !phoneNumber || !bio || !skill){
         //     return res.status(400).json({
         //         message : "Something is missing",
@@ -138,7 +153,7 @@ export const updateProfile = async (req,res) => {
         //cloundinary
         const fileUri = getDataUri(file)
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
-        console.log(cloudResponse);
+        console.log("Cloudinary upload response:", cloudResponse);
         
 
         let skillsArray
