@@ -23,8 +23,12 @@ function UpdateProfileDialog({open, setOpen}) {
     phoneNumber : user?.phoneNumber || "",
     bio: user?.profile?.bio || '',
     skills : user?.profile?.skills?.join(",") || "",
-    file : user?.profile?.resume || null
+    file : user?.profile?.resume || null,
+    profile : user?.profile?.Profile_Photo || null
   })
+
+  const [profilePreview, setProfilePreview] = useState(user?.profile?.Profile_Photo || null); // For image preview
+
 
   const dispatch = useDispatch();
 
@@ -34,8 +38,21 @@ function UpdateProfileDialog({open, setOpen}) {
 
   const fileChangeHandler = (e) => {
     const file = e.target.files?.[0];
-    setinput({...input,file})
+    const fieldName = e.target.name;
+
+    if (file) {
+      if (fieldName === 'resume') {
+        setInput({...input, resume: file});
+      } else if (fieldName === 'profile') {
+        setInput({...input, profile: file});
+        setProfilePreview(URL.createObjectURL(file)); // Preview the selected profile picture
+      }
+    }
   }
+  // const fileChangeHandler = (e) => {
+  //   const file = e.target.files?.[0];
+  //   setinput({...input,file})
+  // }
 
   const SumbitEventHandler = async (e) => {
     e.preventDefault()
@@ -48,6 +65,9 @@ function UpdateProfileDialog({open, setOpen}) {
 
     if(input.file){
       formData.append('file', input.file)
+    }
+    if(input.profile){
+      formData.append('profile', input.profile)
     }
 
     try {
@@ -110,11 +130,29 @@ function UpdateProfileDialog({open, setOpen}) {
                       <Input id="skills" name="skills" value={input.skills} onChange={onChangeEventHandler}
                        className="col-span-3 border border-gray-300 rounded-md "/>
                   </div>
+                
                   <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-x-2">
                       <Label htmlFor="file" className="text-center text-sm font-medium">Resume</Label>
                       <Input id="file" name="file" type="file" accept="application/pdf" onChange={fileChangeHandler}
                       className="col-span-3 border border-gray-300 rounded-md "/>
                   </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-x-2">
+                      <Label htmlFor="profile" className="text-center text-sm font-medium">Profile_Photo</Label>
+                      <Input id="profile" name="profile" type="file" accept="image/*" onChange={fileChangeHandler}
+                      className="col-span-3 border border-gray-300 rounded-md "/>
+                  </div>
+
+                    {/* Profile Preview
+                      {profilePreview && (
+                        <div className=" flex justify-center">
+                          <img
+                            src={profilePreview}
+                            alt="Profile Preview"
+                            className="w-14 h-14 rounded-full border border-gray-300 object-cover"
+                          />
+                        </div>
+                      )} */}
                 </div>
                 <DialogFooter className="mt-4">
                   {

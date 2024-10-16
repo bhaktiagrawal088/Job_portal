@@ -84,10 +84,14 @@ function Navbar() {
                     </div>
                 </div>
                     <div className="flex flex-col my-2 text-gray-600">
+                    {
+                      user && user?.role === "student" && (
                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                             <User2/> 
                             <Button variant="link"><Link to='/profile'>View Profile</Link></Button>
                         </div>
+                      )
+                    }
                         <div className="flex w-fit items-center gap-2 cursor-pointer text-red-700 ">
                             <LogOut/>
                             <Button onClick={logoutHandler} variant="outline">Logout</Button>
