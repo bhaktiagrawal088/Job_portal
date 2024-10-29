@@ -4,7 +4,7 @@ import multer from "multer";
 const storage = multer.memoryStorage();
 
 // Step 2: Create a Multer instance
-const upload = multer({ storage });
+// const upload = multer({ storage });
 // const upload = multer({
 //     storage: multer.memoryStorage(),
 //     limits: { fileSize: 1024 * 1024 * 5 }, // 5MB size limit
@@ -13,5 +13,5 @@ const upload = multer({ storage });
 
 
 // Step 3: Export the singleUpload middleware
-export const singleUpload = upload.single("file");
+export const singleUpload = multer({storage}).single("file");
 

@@ -14,9 +14,16 @@ export const register = async (req, res ) => {
             })
         }
 
+        let profilePhotoUrl = null; // Default value if no file is provided
+        let originalFileName = null;
+
         const file = req.file;
-        const fileUri = getDataUri(file)
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+        if (file) {
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            profilePhotoUrl = cloudResponse.secure_url; // Store Cloudinary URL
+            originalFileName = file.originalname; // Store the original file name
+        }
 
         const user = await User.findOne({email});
         if(user){
@@ -34,8 +41,8 @@ export const register = async (req, res ) => {
             password : hashedPassword,
             role,
             profile: {
-                Profile_Photo: cloudResponse.secure_url, // Store Cloudinary URL
-                resumeOriginalName: file.originalname, // Store the original file name
+                Profile_Photo :profilePhotoUrl, // Store Cloudinary URL
+                resumeOriginalName: originalFileName, // Store the original file name
 
 
             }
@@ -136,12 +143,12 @@ export const updateProfile = async (req,res) => {
         const file = req.file;
         console.log("Uploaded file:", file); // Log req.file
 
-        if (!file) {
-            return res.status(400).json({
-                message: "No file uploaded",
-                success: false
-            });
-        }
+        // if (!file) {
+        //     return res.status(400).json({
+        //         message: "No file uploaded",
+        //         success: false
+        //     });
+        // }
 
         // if(!fullname || !email || !phoneNumber || !bio || !skill){
         //     return res.status(400).json({
@@ -151,10 +158,12 @@ export const updateProfile = async (req,res) => {
         // }
 
         //cloundinary
-        const fileUri = getDataUri(file)
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
-        console.log("Cloudinary upload response:", cloudResponse);
-        
+        let cloudResponse;
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            console.log("Cloudinary upload response:", cloudResponse);
+        }
 
         let skillsArray
         if(skills){

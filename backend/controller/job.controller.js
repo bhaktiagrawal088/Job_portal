@@ -11,15 +11,15 @@ export const PostJob = async(req,res) => {
                 success : false,
             });
         }
-        let job = await Job.findOne({name:title})
-        if(!job){
+        let existingJob = await Job.findOne({title:title})
+        if(existingJob){
             return res.status(400).json({
                 message : "You can't create same job",
                 success : false
             })
         }
 
-        job  = await Job.create({
+        const job  = await Job.create({
             title,
             description,
             requirements : requirements.split(","),
@@ -39,7 +39,12 @@ export const PostJob = async(req,res) => {
             success : true,
         })
     } catch (error) {
-        console.log(error);
+        console.error("Error posting job:", error);
+        return res.status(500).json({
+            message: "An error occurred while posting the job.",
+            success: false,
+            error: error.message,
+        });
     }
 }
 
@@ -107,8 +112,10 @@ export const getJobById = async(req,res) => {
 export const getAdminJobs = async(req,res) => {
     try {
         const adminId = req.id;
-        const jobs = await Job.find({created_by: adminId})
-        if(!jobs){
+        const jobs = await Job.find({created_by: adminId}).populate({
+            path : 'company'
+        })
+        if(!jobs && jobs.length === 0){
             return res.status(404).json({
                 message : "No jobs found",
                 success : false
@@ -120,7 +127,12 @@ export const getAdminJobs = async(req,res) => {
         })
     }   
     catch (error) {
-        console.log(error);
+        console.error("Error fetching admin jobs:", error);
+        return res.status(500).json({
+            message: "An error occurred while fetching jobs",
+            success: false,
+            error: error.message  // Optional: to send back the error message
+        });
         
     }
 }

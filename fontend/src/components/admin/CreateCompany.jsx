@@ -3,12 +3,12 @@ import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { useDispatch } from 'react-redux'
-import { setSingleCompany } from '@/redux/CompanySlice'
+import { setSingleCompany } from '@/redux/companySlice'
 
 function CreateCompany() {
 
@@ -16,7 +16,11 @@ function CreateCompany() {
   const [companyName, setCompanyName] = useState()
   const dispatch = useDispatch();
 
+
   const registerNewCompany =  async() => {
+     
+    try {
+
       const res = await axios.post(`${COMPANY_API_END_POINT}/register`, {companyName},{
         headers: {
           'Content-Type': 'application/json',
@@ -30,11 +34,10 @@ function CreateCompany() {
         navigate(`/admin/companies/${companyId}`)
 
       }
-    try {
       
     } catch (error) {
       console.log(error);
-      toast.error(error. data.response.message)
+      toast.error(error. data.res.message)
       
     }
 

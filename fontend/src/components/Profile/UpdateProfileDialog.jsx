@@ -12,88 +12,59 @@ import { USER_API_END_POINT } from '@/utils/constant'
 
 
 function UpdateProfileDialog({open, setOpen}) {
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector(store => store.auth);
 
-  const [loading , setLoading] = useState(false)
-
-  const {user} = useSelector(store => store.auth)
-
-  const [input, setinput] = useState({
-    fullname : user?.fullname || " ",
-    email : user?.email || "",
-    phoneNumber : user?.phoneNumber || "",
-    bio: user?.profile?.bio || '',
-    skills : user?.profile?.skills?.join(",") || "",
-    file : user?.profile?.resume || null,
-    profile : user?.profile?.Profile_Photo || null
-  })
-
-  const [profilePreview, setProfilePreview] = useState(user?.profile?.Profile_Photo || null); // For image preview
-
-
+  const [input, setInput] = useState({
+      fullname: user?.fullname || "",
+      email: user?.email || "",
+      phoneNumber: user?.phoneNumber || "",
+      bio: user?.profile?.bio || "",
+      skills: user?.profile?.skills?.map(skill => skill) || "",
+      file: user?.profile?.resume || ""
+  });
   const dispatch = useDispatch();
 
   const onChangeEventHandler = (e) => {
-    setinput({...input,[e.target.name]: e.target.value})
+      setInput({ ...input, [e.target.name]: e.target.value });
   }
 
   const fileChangeHandler = (e) => {
-    const file = e.target.files?.[0];
-    const fieldName = e.target.name;
-
-    if (file) {
-      if (fieldName === 'resume') {
-        setInput({...input, resume: file});
-      } else if (fieldName === 'profile') {
-        setInput({...input, profile: file});
-        setProfilePreview(URL.createObjectURL(file)); // Preview the selected profile picture
-      }
-    }
+      const file = e.target.files?.[0];
+      setInput({ ...input, file })
   }
-  // const fileChangeHandler = (e) => {
-  //   const file = e.target.files?.[0];
-  //   setinput({...input,file})
-  // }
 
   const SumbitEventHandler = async (e) => {
-    e.preventDefault()
-    const formData = new FormData();
-    formData.append('fullname', input.fullname);
-    formData.append('email', input.email);
-    formData.append('phoneNumber', input.phoneNumber);
-    formData.append('bio', input.bio);
-    formData.append('skills', input.skills);
-
-    if(input.file){
-      formData.append('file', input.file)
-    }
-    if(input.profile){
-      formData.append('profile', input.profile)
-    }
-
-    try {
-      setLoading(true);
-      const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        withCredentials: true
-      })
-
-      if(res.data.success){
-        dispatch(setUser(res.data.user));
-        toast.success(res.data.message);
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("fullname", input.fullname);
+      formData.append("email", input.email);
+      formData.append("phoneNumber", input.phoneNumber);
+      formData.append("bio", input.bio);
+      formData.append("skills", input.skills);
+      if (input.file) {
+          formData.append("file", input.file);
       }
-     
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || "An error occurred");
-    }
-    finally{
-      setLoading(false);
-    }
-    setOpen(false)
-    console.log(input);
-    
+      try {
+          setLoading(true);
+          const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              },
+              withCredentials: true
+          });
+          if (res.data.success) {
+              dispatch(setUser(res.data.user));
+              toast.success(res.data.message);
+          }
+      } catch (error) {
+          console.log(error);
+          toast.error(error.response.data.message);
+      } finally{
+          setLoading(false);
+      }
+      setOpen(false);
+      console.log(input);
   }
 
   return (
@@ -137,11 +108,11 @@ function UpdateProfileDialog({open, setOpen}) {
                       className="col-span-3 border border-gray-300 rounded-md "/>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-x-2">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-x-2">
                       <Label htmlFor="profile" className="text-center text-sm font-medium">Profile_Photo</Label>
                       <Input id="profile" name="profile" type="file" accept="image/*" onChange={fileChangeHandler}
                       className="col-span-3 border border-gray-300 rounded-md "/>
-                  </div>
+                  </div> */}
 
                     {/* Profile Preview
                       {profilePreview && (
