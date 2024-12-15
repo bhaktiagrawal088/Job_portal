@@ -111,7 +111,7 @@ const CompanySetup = () => {
           </div> 
           <div>
             <Label>Description</Label>
-            <Input type="text" name="description" value={input.description || ""} onChange={changeEventHandler}/>
+            <Input type="text" name="description" value={input.description} onChange={changeEventHandler}/>
           </div> 
           <div>
             <Label>Website</Label>

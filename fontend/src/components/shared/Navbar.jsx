@@ -67,13 +67,13 @@ function Navbar() {
                         </Link>
                     </div>
                 ) : <div>
-                <Popover>
-            <PopoverTrigger asChild>
+                <Popover className="bg-white">
+            <PopoverTrigger asChild >
                 <Avatar className= "cursor-pointer">
                     <AvatarImage src={user?.profile?.Profile_Photo || 'https://www.gravatar.com/avatar/placeholder'} alt="@shadcn" />
                 </Avatar>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
+            <PopoverContent className="w-80 bg-white">
                 <div className="flex gap-4 space-y-2">
                     <Avatar className= "cursor-pointer">
                         <AvatarImage src={user?.profile?.Profile_Photo || 'https://www.gravatar.com/avatar/placeholder'} alt="@shadcn" />

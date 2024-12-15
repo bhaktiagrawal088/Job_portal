@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Link, useNavigate } from 'react-router-dom'
@@ -20,7 +20,7 @@ function Login() {
         role : "",
       
     })
-    const {loading} = useSelector(store => store.auth);
+    const {loading, user} = useSelector(store => store.auth);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,6 +55,12 @@ function Login() {
             dispatch(setLoading(false))
         }
     }
+
+    useEffect(() => {
+        if(user){
+            navigate('/')
+        }
+    },[])
    
     return (
         <div>

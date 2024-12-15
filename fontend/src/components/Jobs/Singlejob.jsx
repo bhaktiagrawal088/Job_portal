@@ -29,7 +29,7 @@ function Singlejob({job}) {
         <div className='flex items-center gap-2 my-2 '>
             <Button className= " p-0.5 w-10 h-10" variant="outline" size="icons">
                 <Avatar>
-                    <AvatarImage  src="https://imgs.search.brave.com/uJGRrss5YN_rO5WuIXi0NBcuy4W_CVj-Qk7lp7_YFAA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAxLzM2LzAyLzI2/LzM2MF9GXzEzNjAy/MjY3MV84Skg1T0hJ/c3Nwd1Rlb00wb3ZZ/SVNjWUlnU2JnaFhz/Zy5qcGc"></AvatarImage>
+                    <AvatarImage  src={job?.company?.logo}></AvatarImage>
                 </Avatar>
             </Button>
             <div>

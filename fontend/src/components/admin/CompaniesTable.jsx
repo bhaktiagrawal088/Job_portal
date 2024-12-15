@@ -70,7 +70,7 @@ const CompaniesTable = () => {
                         <PopoverTrigger asChild>
                           <MoreHorizontal  className="inline-block"/>
                         </PopoverTrigger>
-                        <PopoverContent className="w-32">
+                        <PopoverContent className="w-24 h-12 bg-white">
                         <div className="">
                           <div onClick={() => navigate(`/admin/companies/${company._id}`)} className="flex items-center gap-2 w-fit cursor-pointer">
                             <Edit2 className="w-4" />
